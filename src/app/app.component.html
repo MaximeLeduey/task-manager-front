@@ -1,9 +1,1 @@
-<h1>Bonjour à tous</h1>
-@for (task of tasks; track task.id) {
-  <div>
-    {{ task.name }} ({{ task.completed }})
-  </div>
-}
-@empty {
-  <p>Aucune tâche trouvée</p>
-}
+<app-task></app-task>
