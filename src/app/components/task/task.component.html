@@ -1,6 +1,44 @@
-<h2>Liste de tâches</h2>
-@for (task of tasks; track task.id) {
-    <li>{{ task.name }}</li>
-    } @empty {
-    <li>There are no tasks.</li>
-    }
+<div class="container">
+    <h2>Liste de tâches</h2>
+    
+    <ul class="task-list">
+      @for (task of tasks$ | async; track task.id) {
+        <li class="task-item">
+          <input 
+            type="checkbox" 
+            class="task-checkbox" 
+            [checked]="task.isCompleted" 
+            
+          />
+          <span 
+            class="task-name" 
+            [class.completed]="task.isCompleted">
+            {{ task.name }}
+          </span>
+          <div class="task-actions">
+            <button class="btn modify-btn" (click)="selectedTask = task">Modifier</button>
+            <button class="btn delete-btn" (click)="delete(task.id)">X</button>
+          </div>
+        </li>
+      } @empty {
+        <li>Il n'y a pas de tâches.</li>
+      }
+    </ul>
+  </div>
+  
+
+@if(selectedTask != null) {
+    <div class="modale">
+        <h2>Modifier tâche</h2>
+        <button class="btn delete-btn" (click)="selectedTask = null">X</button>
+        <li class="task-item">
+            <span class="task-name">{{selectedTask.name}}</span>
+            <div class="task-actions">
+              <button class="btn modify-btn">Modifier</button>
+            </div>
+          </li>
+    </div>
+}
+
+
+

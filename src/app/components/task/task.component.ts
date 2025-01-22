@@ -1,21 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { ITask } from '../../interfaces/task.interface';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-task',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })
-export class TaskComponent implements OnInit {
-  public tasks: ITask[] = []; 
-
+export class TaskComponent {
   private taskService = inject(TaskService)
 
-  ngOnInit(): void {
-    this.getAll()
-  }
+  public tasks$: Observable<ITask[]> = this.taskService.getAll()
+  public selectedTask: ITask | null = null
 
   public delete(id: number) {
     this.taskService.delete(id).subscribe({
@@ -38,22 +38,5 @@ export class TaskComponent implements OnInit {
       }
     });
   }
-
-  private getAll() {
-    this.taskService.getAll().subscribe({
-      next: (data: ITask[]) => {
-        this.tasks = data; 
-        console.log("data fetched")
-      },
-      error: (err) => {
-        console.error('An error has occured while trying to fetch the tasks :', err);
-      }
-    });
-  }
-
-  // private getById(id: number) {
-    
-  // }
-
  
 }
