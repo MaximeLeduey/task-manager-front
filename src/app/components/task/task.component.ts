@@ -3,7 +3,8 @@ import { TaskService } from '../../services/task.service';
 import { ITask } from '../../interfaces/task.interface';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 
 
 @Component({
@@ -19,8 +20,12 @@ export class TaskComponent {
   selectedTask: ITask | null = null
 
   formGroup = new FormGroup({
-    name: new FormControl('')
+    name: new FormControl('', [Validators.required])
   })
+
+  add() {
+
+  }
 
   delete(id: number) {
     this.taskService.delete(id).subscribe({

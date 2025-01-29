@@ -1,50 +1,51 @@
-<div class="container">
-  <h2 class="container_title">Ajouter une nouvelle tâche</h2> 
-  <form class="container_form">
-    <div class="container_add">
-      <input type="text" name="name" placeholder="Nom de la tâche">
-      <button class="btn modify_btn" >Ajouter</button>
+<div class="task-manager">
+  <h2 class="task-manager__title">Ajouter une nouvelle tâche</h2>
+  <form class="task-form" [formGroup]="formGroup">
+    <div class="task-form__input-group">
+      <input type="text" name="name" placeholder="Nom de la tâche" formControlName="name">
+      <button class="btn btn--add" (click)="add()">Ajouter</button>
     </div>
+    @if(formGroup.controls.name.invalid) {
+      <span class="error-message">Veuillez remplir le champ avant de valider</span>
+    }
   </form>
-    <h2 class="container_title">Liste de tâches</h2> 
-    <div class="container_task_list">
-      @for (task of tasks$ | async; track task.id) {
-        <div class="container_task_item">
-            <span 
-            class="container_task_item_task_name" 
+
+  <h2 class="task-manager__title">Liste de tâches</h2>
+  <div class="task-list">
+    @for (task of tasks$ | async; track task.id) {
+      <div class="task-item">
+        <div class="task-item__content">
+          <span 
+            class="task-item__name" 
             [class.completed]="task.isCompleted">
             {{ task.name }}
-            </span>
-            <input 
+          </span>
+          <input 
             type="checkbox" 
-            class="task_checkbox" 
+            class="task-item__checkbox" 
             [checked]="task.isCompleted" 
             disabled/>
-
-            <div class="container_task_item_task_actions">
-              <button class="btn modify_btn" (click)="selectedTask = task">Modifier</button>
-              <button class="btn delete_btn" (click)="delete(task.id)">X</button>
-            </div>
         </div>
-      } @empty {
-        <p>Il n'y a pas de tâches.</p>
-      }
-    </div>
+        <div class="task-item__actions">
+          <button class="btn btn--edit" (click)="selectedTask = task">Modifier</button>
+          <button class="btn btn--delete" (click)="delete(task.id)">X</button>
+        </div>
+      </div>
+    } @empty {
+      <p class="task-list__empty">Il n'y a pas de tâches.</p>
+    }
   </div>
-  
+</div>
 
 @if(selectedTask != null) {
-    <div class="modale">
-        <h2>Modifier tâche</h2>
-        <button class="btn delete_btn" (click)="selectedTask = null">X</button>
-        <li class="task_item">
-            <span class="task_name">{{selectedTask.name}}</span>
-            <div class="task_actions">
-              <button class="btn modify_btn">Modifier</button>
-            </div>
-          </li>
-    </div>
+  <div class="modal">
+    <h2>Modifier tâche</h2>
+    <button class="btn btn--delete" (click)="selectedTask = null">X</button>
+    <li class="task-item">
+      <span class="task-item__name">{{ selectedTask.name }}</span>
+      <div class="task-item__actions">
+        <button class="btn btn--edit">Modifier</button>
+      </div>
+    </li>
+  </div>
 }
-
-
-
