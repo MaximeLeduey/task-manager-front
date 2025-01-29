@@ -1,72 +1,92 @@
 .container {
-    padding: 20px;
     max-width: 800px;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
+
+    &_add {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &_title {
+        text-align: center;
+        color: #333;
+    }
+
+    &_task_list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+        }
+    }
+
+    &_task_item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #c2a9c9;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        cursor: pointer;
+
+        &_task_name {
+            font-size: 16px;
+            color: #472525;
+           
+        }
+
+        &_task_actions {
+            display: flex;
+            gap: 10px;
+        }
+    }
+
+    &_task_item:hover {
+        transform: scale(1.01); 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    }
+
+    
 }
   
-h2 {
-text-align: center;
-color: #333;
+
+.task_checkbox:disabled {
+    accent-color: red;
 }
 
-.task-list {
-list-style: none;
-padding: 0;
-margin: 20px 0;
-}
-
-.task-item {
-display: flex;
-justify-content: space-between;
-align-items: center;
-background-color: #f9f9f9;
-border-radius: 5px;
-padding: 10px;
-margin: 10px 0;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.task-name {
-font-size: 16px;
-color: #333;
-}
-
-.task-actions {
-display: flex;
-gap: 10px;
-}
 
 .btn {
-padding: 5px 15px;
-font-size: 14px;
-border: none;
-border-radius: 3px;
-cursor: pointer;
+    padding: 5px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
-.modify-btn {
-background-color: #4CAF50;
-color: white;
+.modify_btn {
+    background-color: #4CAF50;
+    color: white;
 }
 
-.modify-btn:hover {
-background-color: #45a049;
+.modify_btn:hover {
+    background-color: #45a049;
 }
 
-.delete-btn {
-background-color: #f44336;
-color: white;
+.delete_btn {
+    background-color: #f44336;
+    color: white;
 }
 
-.delete-btn:hover {
-background-color: #e53935;
-}
-
-.task-list p {
-text-align: center;
-font-size: 18px;
-color: #777;
+.delete_btn:hover {
+    background-color: #e53935;
 }
 
 .modale {

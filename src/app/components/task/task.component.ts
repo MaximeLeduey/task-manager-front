@@ -3,21 +3,26 @@ import { TaskService } from '../../services/task.service';
 import { ITask } from '../../interfaces/task.interface';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-task',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss'
 })
 export class TaskComponent {
   private taskService = inject(TaskService)
 
-  public tasks$: Observable<ITask[]> = this.taskService.getAll()
-  public selectedTask: ITask | null = null
+  tasks$: Observable<ITask[]> = this.taskService.getAll()
+  selectedTask: ITask | null = null
 
-  public delete(id: number) {
+  formGroup = new FormGroup({
+    name: new FormControl('')
+  })
+
+  delete(id: number) {
     this.taskService.delete(id).subscribe({
       next: (data: ITask) => {
         console.log(data + "has been deleted")
@@ -28,7 +33,7 @@ export class TaskComponent {
     });
   }
 
-  public update(id: number, task: ITask) {
+  update(id: number, task: ITask) {
     this.taskService.update(id, task).subscribe({
       next: (data: ITask) => {
         console.log(data + "has been updated")
@@ -37,6 +42,10 @@ export class TaskComponent {
         console.error('An error has occured while trying to update the task :', err);
       }
     });
+  }
+
+  onSubmit() {
+    console.log(this.formGroup.value)
   }
  
 }

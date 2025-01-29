@@ -67,7 +67,9 @@
               "buildTarget": "Front:build:production"
             },
             "development": {
-              "buildTarget": "Front:build:development"
+              "buildTarget": "Front:build:development",
+              "hmr": true,                
+              "liveReload": true          
             }
           },
           "defaultConfiguration": "development"
