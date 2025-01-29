@@ -23,8 +23,27 @@ export class TaskComponent {
     name: new FormControl('', [Validators.required])
   })
 
-  add() {
+  private post() {
+    this.taskService.post({id : null, name : this.formGroup.value.name as string, isCompleted : false})
+    .subscribe({
+      next: (data: ITask) => {
+        console.log(data + "has been sent")
+      },
+      error: (err) => {
+        console.error('An error has occured while trying to send the task :', err);
+      }
+    })
+  }
 
+  private update(task: ITask) {
+    this.taskService.update(task).subscribe({
+      next: (data: ITask) => {
+        console.log(data + "has been updated")
+      },
+      error: (err) => {
+        console.error('An error has occured while trying to update the task :', err);
+      }
+    })
   }
 
   delete(id: number) {
@@ -35,22 +54,27 @@ export class TaskComponent {
       error: (err) => {
         console.error('An error has occured while trying to delete the task :', err);
       }
-    });
+    })
   }
 
-  update(id: number, task: ITask) {
-    this.taskService.update(id, task).subscribe({
-      next: (data: ITask) => {
-        console.log(data + "has been updated")
-      },
-      error: (err) => {
-        console.error('An error has occured while trying to update the task :', err);
-      }
-    });
+
+  onCheck(task: ITask) {
+    if(task.isCompleted == false) {
+      task.isCompleted = true
+    }
+    else {
+      task.isCompleted = false
+    }
+
+    this.update(task)
   }
 
   onSubmit() {
-    console.log(this.formGroup.value)
+    this.formGroup.markAllAsTouched()
+    if(this.formGroup.valid) {
+      this.post()
+    }
+ 
   }
  
 }

@@ -1,15 +1,14 @@
 <div class="task-manager">
   <h2 class="task-manager__title">Ajouter une nouvelle tâche</h2>
-  <form class="task-form" [formGroup]="formGroup">
+  <form class="task-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div class="task-form__input-group">
       <input type="text" name="name" placeholder="Nom de la tâche" formControlName="name">
-      <button class="btn btn--add" (click)="add()">Ajouter</button>
+      <button class="btn btn--add" type="submit">Ajouter</button>
     </div>
-    @if(formGroup.controls.name.invalid) {
+    @if(formGroup.controls.name.invalid && (formGroup.controls.name.touched || formGroup.controls.name.dirty)) {
       <span class="error-message">Veuillez remplir le champ avant de valider</span>
     }
   </form>
-
   <h2 class="task-manager__title">Liste de tâches</h2>
   <div class="task-list">
     @for (task of tasks$ | async; track task.id) {
@@ -24,11 +23,11 @@
             type="checkbox" 
             class="task-item__checkbox" 
             [checked]="task.isCompleted" 
-            disabled/>
+            (change)="onCheck(task)">
         </div>
         <div class="task-item__actions">
           <button class="btn btn--edit" (click)="selectedTask = task">Modifier</button>
-          <button class="btn btn--delete" (click)="delete(task.id)">X</button>
+          <button *ngIf="task.id" class="btn btn--delete" (click)="delete(task.id)">X</button>
         </div>
       </div>
     } @empty {
