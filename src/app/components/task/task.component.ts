@@ -24,7 +24,7 @@ export class TaskComponent {
   })
 
   private post() {
-    this.taskService.post({id : null, name : this.formGroup.value.name as string, isCompleted : false})
+    this.taskService.post({id : 0, name : this.formGroup.value.name as string, isCompleted : false})
     .subscribe({
       next: (data: ITask) => {
         console.log(data + "has been sent")
