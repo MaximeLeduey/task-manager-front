@@ -27,7 +27,8 @@ export class TaskComponent {
     this.taskService.post({id : 0, name : this.formGroup.value.name as string, isCompleted : false})
     .subscribe({
       next: (data: ITask) => {
-        console.log(data + "has been sent")
+        console.log("task " + data.name + " has been saved")
+        this.refresh()
       },
       error: (err) => {
         console.error('An error has occured while trying to send the task :', err);
@@ -38,7 +39,8 @@ export class TaskComponent {
   private update(task: ITask) {
     this.taskService.update(task).subscribe({
       next: (data: ITask) => {
-        console.log(data + "has been updated")
+        console.log("task " + data.name + " has been updated")
+        this.refresh()
       },
       error: (err) => {
         console.error('An error has occured while trying to update the task :', err);
@@ -46,10 +48,15 @@ export class TaskComponent {
     })
   }
 
+  private refresh() {
+    this.tasks$ = this.taskService.getAll()
+  }
+
   delete(id: number) {
     this.taskService.delete(id).subscribe({
       next: (data: ITask) => {
-        console.log(data + "has been deleted")
+        console.log("task " + data.name + " has been deleted")
+        this.refresh()
       },
       error: (err) => {
         console.error('An error has occured while trying to delete the task :', err);
