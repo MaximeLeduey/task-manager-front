@@ -19,12 +19,16 @@ export class TaskComponent {
   tasks$: Observable<ITask[]> = this.taskService.getAll()
   selectedTask: ITask | null = null
 
-  formGroup = new FormGroup({
+  addForm = new FormGroup({
+    name: new FormControl('', [Validators.required])
+  })
+
+  updateForm = new FormGroup({
     name: new FormControl('', [Validators.required])
   })
 
   private post() {
-    this.taskService.post({id : 0, name : this.formGroup.value.name as string, isCompleted : false})
+    this.taskService.post({id : 0, name : this.addForm.value.name as string, isCompleted : false})
     .subscribe({
       next: (data: ITask) => {
         console.log("task " + data.name + " has been saved")
@@ -77,11 +81,24 @@ export class TaskComponent {
   }
 
   onSubmit() {
-    this.formGroup.markAllAsTouched()
-    if(this.formGroup.valid) {
+    this.addForm.markAllAsTouched()
+    if(this.addForm.valid) {
       this.post()
     }
- 
+  } 
+
+  onUpdate() {
+    this.updateForm.markAllAsTouched()
+    if(this.updateForm.valid && this.updateForm.value.name != this.selectedTask?.name && this.selectedTask) {
+      this.update({id: this.selectedTask.id, name: this.updateForm.value.name as string, isCompleted: this.selectedTask.isCompleted})
+      this.refresh()
+    }
   }
- 
+
+  closeModal() {
+    this.selectedTask = null;
+    this.updateForm.reset(); 
+    this.updateForm.markAsPristine(); 
+    this.updateForm.markAsUntouched(); 
+  }
 }

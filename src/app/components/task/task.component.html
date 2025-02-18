@@ -1,11 +1,11 @@
 <div class="task-manager">
   <h2 class="task-manager__title">Ajouter une nouvelle tâche</h2>
-  <form class="task-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <form class="task-form" [formGroup]="addForm" (ngSubmit)="onSubmit()">
     <div class="task-form__input-group">
       <input type="text" name="name" placeholder="Nom de la tâche" formControlName="name">
       <button class="btn btn--add" type="submit">Ajouter</button>
     </div>
-    @if(formGroup.controls.name.invalid && (formGroup.controls.name.touched || formGroup.controls.name.dirty)) {
+    @if(addForm.controls.name.invalid && (addForm.controls.name.touched || addForm.controls.name.dirty)) {
       <span class="error-message">Veuillez remplir le champ avant de valider</span>
     }
   </form>
@@ -39,12 +39,18 @@
 @if(selectedTask != null) {
   <div class="modal">
     <h2>Modifier tâche</h2>
-    <button class="btn btn--delete" (click)="selectedTask = null">X</button>
-    <li class="task-item">
-      <span class="task-item__name">{{ selectedTask.name }}</span>
-      <div class="task-item__actions">
-        <button class="btn btn--edit">Modifier</button>
-      </div>
-    </li>
+    <button class="btn btn--delete" (click)="closeModal()">X</button>
+    <form class="task-form" [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+        <div class="task-form__input-group">
+          <input type="text" name="name" placeholder={{selectedTask.name}} formControlName="name">
+          <button class="btn btn--edit" type="submit">Modifier</button>
+        </div>
+        @if(updateForm.controls.name.invalid && (updateForm.controls.name.touched || updateForm.controls.name.dirty)) {
+          <span class="error-message">Veuillez remplir le champ avant de valider</span>
+        }
+        @if(updateForm.value.name == selectedTask.name) {
+          <span class="error-message">Le nom est identique au précédent</span>
+        }
+    </form>
   </div>
 }
